@@ -86,19 +86,19 @@ clean: ## Clean up Terraform cache and local state.
 
 .PHONY: flux-install
 flux-install: ## Install FluxCD components inside flux-system namespace.
-	${KUBECTL} apply --server-side -f ./resources/flux-system/gotk-components.yaml
+	${KUBECTL} apply --server-side -f ./gitops/$(PROW_ENV)/flux-system/gotk-components.yaml
 
 .PHONY: flux-apply-sources
 flux-apply-sources: ## Apply FluxCD Sources located inside "./resources/flux-system" folder.
-	find ./resources/flux-system -type f -name "flux-source-*" -exec ${KUBECTL} apply -f {} \;
+	find ./gitops/$(PROW_ENV)/flux-system -type f -name "flux-source-*" -exec ${KUBECTL} apply -f {} \;
 
 .PHONY: flux-apply-kustomizations
 flux-apply-kustomizations: ## Apply FluxCD Kustomizations located inside "./resources/flux-system" folder.
-	find ./resources/flux-system -type f -name "flux-ks-*" -exec ${KUBECTL} apply -f {} \;
+	find ./gitops/$(PROW_ENV)/flux-system -type f -name "flux-ks-*" -exec ${KUBECTL} apply -f {} \;
 
 .PHONY: flux-apply-helm-releases
 flux-apply-helm-releases: ## Apply HelmReleases located inside "./resources" folder.
-	find ./resources -type f -name "flux-hr-*" -exec ${KUBECTL} apply -f {} \;
+	find ./gitops/$(PROW_ENV) -type f -name "flux-hr-*" -exec ${KUBECTL} apply -f {} \;
 
 PHONY: flux-apply-all
 flux-apply-all: flux-apply-sources flux-apply-kustomizations flux-apply-helm-releases ## Apply FluxCD Sources, Kustomizations and HelmReleases, all at once.
