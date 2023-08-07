@@ -90,11 +90,11 @@ flux-install: ## Install FluxCD components inside flux-system namespace.
 
 .PHONY: flux-apply-sources
 flux-apply-sources: ## Apply FluxCD Sources located inside "./resources/flux-system" folder.
-	find ./gitops/$(PROW_ENV)/flux-system -type f -name "flux-source-*" -exec ${KUBECTL} apply -f {} \;
+	find ./gitops/$(PROW_ENV) -type f -name "flux-source-*" -exec ${KUBECTL} apply -f {} \;
 
 .PHONY: flux-apply-kustomizations
 flux-apply-kustomizations: ## Apply FluxCD Kustomizations located inside "./resources/flux-system" folder.
-	find ./gitops/$(PROW_ENV)/flux-system -type f -name "flux-ks-*" -exec ${KUBECTL} apply -f {} \;
+	find ./gitops/$(PROW_ENV) -type f -name "flux-ks-*" -exec ${KUBECTL} apply -f {} \;
 
 .PHONY: flux-apply-helm-releases
 flux-apply-helm-releases: ## Apply HelmReleases located inside "./resources" folder.
