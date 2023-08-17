@@ -1,0 +1,151 @@
+Only in ./gitops/prod/external-secrets: configmaps.yaml
+diff -bur ./gitops/prod/flux-system/flux-ks-boskos.yaml ./gitops/canary/flux-system/flux-ks-boskos.yaml
+--- ./gitops/prod/flux-system/flux-ks-boskos.yaml	2023-08-17 13:07:50
++++ ./gitops/canary/flux-system/flux-ks-boskos.yaml	2023-08-17 11:41:10
+@@ -21,7 +21,7 @@
+   namespace: flux-system
+ spec:
+   interval: 5m0s
+-  path: ./infra/aws/terraform/prow-build-cluster/gitops/prod/boskos
++  path: ./infra/aws/terraform/prow-build-cluster/gitops/canary/boskos
+   prune: true
+   sourceRef:
+     kind: GitRepository
+diff -bur ./gitops/prod/flux-system/flux-ks-external-secrets.yaml ./gitops/canary/flux-system/flux-ks-external-secrets.yaml
+--- ./gitops/prod/flux-system/flux-ks-external-secrets.yaml	2023-08-17 13:08:03
++++ ./gitops/canary/flux-system/flux-ks-external-secrets.yaml	2023-08-17 11:41:10
+@@ -21,7 +21,7 @@
+   namespace: flux-system
+ spec:
+   interval: 5m0s
+-  path: ./infra/aws/terraform/prow-build-cluster/gitops/prod/external-secrets
++  path: ./infra/aws/terraform/prow-build-cluster/gitops/canary/external-secrets
+   prune: true
+   sourceRef:
+     kind: GitRepository
+diff -bur ./gitops/prod/flux-system/flux-ks-flux-system.yaml ./gitops/canary/flux-system/flux-ks-flux-system.yaml
+--- ./gitops/prod/flux-system/flux-ks-flux-system.yaml	2023-08-17 13:08:17
++++ ./gitops/canary/flux-system/flux-ks-flux-system.yaml	2023-08-17 11:41:10
+@@ -21,7 +21,7 @@
+   namespace: flux-system
+ spec:
+   interval: 5m0s
+-  path: ./infra/aws/terraform/prow-build-cluster/gitops/prod/flux-system
++  path: ./infra/aws/terraform/prow-build-cluster/gitops/canary/flux-system
+   prune: true
+   sourceRef:
+     kind: GitRepository
+diff -bur ./gitops/prod/flux-system/flux-ks-kube-system.yaml ./gitops/canary/flux-system/flux-ks-kube-system.yaml
+--- ./gitops/prod/flux-system/flux-ks-kube-system.yaml	2023-08-17 13:08:29
++++ ./gitops/canary/flux-system/flux-ks-kube-system.yaml	2023-08-17 11:41:10
+@@ -21,7 +21,7 @@
+   namespace: flux-system
+ spec:
+   interval: 5m0s
+-  path: ./infra/aws/terraform/prow-build-cluster/gitops/prod/kube-system
++  path: ./infra/aws/terraform/prow-build-cluster/gitops/canary/kube-system
+   prune: true
+   sourceRef:
+     kind: GitRepository
+diff -bur ./gitops/prod/flux-system/flux-ks-monitoring.yaml ./gitops/canary/flux-system/flux-ks-monitoring.yaml
+--- ./gitops/prod/flux-system/flux-ks-monitoring.yaml	2023-08-17 13:14:02
++++ ./gitops/canary/flux-system/flux-ks-monitoring.yaml	2023-08-17 11:41:10
+@@ -21,7 +21,7 @@
+   namespace: flux-system
+ spec:
+   interval: 5m0s
+-  path: ./infra/aws/terraform/prow-build-cluster/gitops/prod/monitoring
++  path: ./infra/aws/terraform/prow-build-cluster/gitops/canary/monitoring
+   prune: true
+   sourceRef:
+     kind: GitRepository
+diff -bur ./gitops/prod/flux-system/flux-ks-node-problem-detector.yaml ./gitops/canary/flux-system/flux-ks-node-problem-detector.yaml
+--- ./gitops/prod/flux-system/flux-ks-node-problem-detector.yaml	2023-08-17 13:12:09
++++ ./gitops/canary/flux-system/flux-ks-node-problem-detector.yaml	2023-08-17 11:41:10
+@@ -21,7 +21,7 @@
+   namespace: flux-system
+ spec:
+   interval: 5m0s
+-  path: ./infra/aws/terraform/prow-build-cluster/gitops/prod/node-problem-detector
++  path: ./infra/aws/terraform/prow-build-cluster/gitops/canary/node-problem-detector
+   prune: true
+   sourceRef:
+     kind: GitRepository
+diff -bur ./gitops/prod/flux-system/flux-ks-rbac.yaml ./gitops/canary/flux-system/flux-ks-rbac.yaml
+--- ./gitops/prod/flux-system/flux-ks-rbac.yaml	2023-08-17 13:12:29
++++ ./gitops/canary/flux-system/flux-ks-rbac.yaml	2023-08-17 11:41:10
+@@ -21,7 +21,7 @@
+   namespace: flux-system
+ spec:
+   interval: 5m0s
+-  path: ./infra/aws/terraform/prow-build-cluster/gitops/prod/rbac
++  path: ./infra/aws/terraform/prow-build-cluster/gitops/canary/rbac
+   prune: true
+   sourceRef:
+     kind: GitRepository
+diff -bur ./gitops/prod/flux-system/flux-ks-test-pods.yaml ./gitops/canary/flux-system/flux-ks-test-pods.yaml
+--- ./gitops/prod/flux-system/flux-ks-test-pods.yaml	2023-08-17 13:12:45
++++ ./gitops/canary/flux-system/flux-ks-test-pods.yaml	2023-08-17 11:41:10
+@@ -21,7 +21,7 @@
+   namespace: flux-system
+ spec:
+   interval: 5m0s
+-  path: ./infra/aws/terraform/prow-build-cluster/gitops/prod/test-pods
++  path: ./infra/aws/terraform/prow-build-cluster/gitops/canary/test-pods
+   prune: true
+   sourceRef:
+     kind: GitRepository
+Only in ./gitops/prod/flux-system: flux-slack-notifications.yaml
+diff -bur ./gitops/prod/flux-system/flux-source-git-k8s.io.yaml ./gitops/canary/flux-system/flux-source-git-k8s.io.yaml
+--- ./gitops/prod/flux-system/flux-source-git-k8s.io.yaml	2023-08-17 11:41:10
++++ ./gitops/canary/flux-system/flux-source-git-k8s.io.yaml	2023-08-17 11:41:10
+@@ -22,5 +22,5 @@
+ spec:
+   interval: 5m0s
+   ref:
+-    branch: main
+-  url: https://github.com/kubernetes/k8s.io
++    branch: separate-canary-manifests
++  url: https://github.com/pkprzekwas/k8s.io
+Only in ./gitops/prod/flux-system: slack-alerting-external-secret.yaml
+diff -bur ./gitops/prod/monitoring/alertmanager-main/alertmanager-config.yaml ./gitops/canary/monitoring/alertmanager-main/alertmanager-config.yaml
+--- ./gitops/prod/monitoring/alertmanager-main/alertmanager-config.yaml	2023-08-17 11:41:10
++++ ./gitops/canary/monitoring/alertmanager-main/alertmanager-config.yaml	2023-08-17 11:41:10
+@@ -50,10 +50,3 @@
+       sendResolved: true
+       title: ":warning: {{ .CommonLabels.alertname }}"
+       text: "{{ range .Alerts }}{{ .Annotations.description }}\n{{ end }}"
+-    - apiURL:
+-        name: slack-k8s-infra-alerts-token
+-        key: url
+-      channel: '#k8s-infra-alerts'
+-      sendResolved: true
+-      title: ":warning: {{ .CommonLabels.alertname }}"
+-      text: "{{ range .Alerts }}{{ .Annotations.description }}\n{{ end }}"
+diff -bur ./gitops/prod/monitoring/alertmanager-main/alertmanager-slack-token.yaml ./gitops/canary/monitoring/alertmanager-main/alertmanager-slack-token.yaml
+--- ./gitops/prod/monitoring/alertmanager-main/alertmanager-slack-token.yaml	2023-08-17 11:41:10
++++ ./gitops/canary/monitoring/alertmanager-main/alertmanager-slack-token.yaml	2023-08-17 11:41:10
+@@ -30,22 +30,3 @@
+     remoteRef:
+       key: secrets/kubermatic
+       property: slack-alerting-cncf-prod
+----
+-apiVersion: external-secrets.io/v1beta1
+-kind: ExternalSecret
+-metadata:
+-  name: slack-k8s-infra-alerts-token
+-  namespace: monitoring
+-spec:
+-  refreshInterval: 1h
+-  secretStoreRef:
+-    name: aws-secerts-manager
+-    kind: ClusterSecretStore
+-  target:
+-    name: slack-k8s-infra-alerts-token
+-    creationPolicy: Owner
+-  data:
+-  - secretKey: url
+-    remoteRef:
+-      key: prow-prod/slack-hooks/kubernetes
+-      property: k8s-infra-alerts
+Only in ./gitops/prod/monitoring/grafana: lb.yaml

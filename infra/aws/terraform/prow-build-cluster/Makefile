@@ -106,3 +106,7 @@ flux-apply-all: flux-apply-sources flux-apply-kustomizations flux-apply-helm-rel
 .PHONY: flux-update
 flux-update: ## Update FluxCD manifests, generate Kustomizations and HelmReleases (requires flux cli).
 	./hack/flux-update.bash
+
+.PHONY: update-diff
+update-diff: ## Updates diff file containing differences between prod and canary clusters.
+	diff -bur ./gitops/prod/ ./gitops/canary/ > ./gitops/diff || true

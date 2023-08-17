@@ -21,7 +21,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 5m0s
-  path: ./infra/aws/terraform/prow-build-cluster/resources/kube-system
+  path: ./infra/aws/terraform/prow-build-cluster/gitops/prod/kube-system
   prune: true
   sourceRef:
     kind: GitRepository
