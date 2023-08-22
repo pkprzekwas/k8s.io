@@ -33,11 +33,14 @@ function boilerplate() {
 }
 
 prod_resources_dir=${script_root}/../gitops/prod
+canary_resources_dir=${script_root}/../gitops/canary
 
 # Generate all FluxCD resources.
 # gotk stands for GitOpsToolKit (https://fluxcd.io/flux/components/)
 boilerplate > ${prod_resources_dir}/flux-system/gotk-components.yaml
 flux install --export >> ${prod_resources_dir}/flux-system/gotk-components.yaml
+boilerplate > ${canary_resources_dir}/flux-system/gotk-components.yaml
+flux install --export >> ${canary_resources_dir}/flux-system/gotk-components.yaml
 
 # sync_interval determines Flux Source Controller sync interval.
 # (https://github.com/fluxcd/source-controller)
@@ -49,12 +52,17 @@ flux create source git k8s-io \
     --branch=${github_branch} \
     --interval=${sync_interval} \
     --export >> ${prod_resources_dir}/flux-system/flux-source-git-k8s.io.yaml
+boilerplate > ${canary_resources_dir}/flux-system/flux-source-git-k8s.io.yaml
+flux create source git k8s-io \
+    --url=https://github.com/${github_org}/k8s.io \
+    --branch=${github_branch} \
+    --interval=${sync_interval} \
 
-boilerplate > ${prod_resources_dir}/flux-system/flux-source-helm-eks-charts.yaml
+boilerplate > ${canary_resources_dir}/flux-system/flux-source-helm-eks-charts.yaml
 flux create source helm eks-charts \
     --url=https://aws.github.io/eks-charts \
     --interval=${sync_interval} \
-    --export >> ${prod_resources_dir}/flux-system/flux-source-helm-eks-charts.yaml
+    --export >> ${canary_resources_dir}/flux-system/flux-source-helm-eks-charts.yaml
 
 boilerplate > ${prod_resources_dir}/kube-system/flux-hr-node-termination-handler.yaml
 flux create hr node-termination-handler \
@@ -64,6 +72,14 @@ flux create hr node-termination-handler \
     --chart-version=0.21.0 \
     --interval=${sync_interval} \
     --export >> ${prod_resources_dir}/kube-system/flux-hr-node-termination-handler.yaml
+boilerplate > ${canary_resources_dir}/kube-system/flux-hr-node-termination-handler.yaml
+flux create hr node-termination-handler \
+    --source=HelmRepository/eks-charts.flux-system \
+    --namespace=kube-system \
+    --chart=aws-node-termination-handler \
+    --chart-version=0.21.0 \
+    --interval=${sync_interval} \
+    --export >> ${canary_resources_dir}/kube-system/flux-hr-node-termination-handler.yaml
 
 # This list contains names of folders inside ./resources directory
 # that are used for generating FluxCD kustomizations.
@@ -80,16 +96,20 @@ kustomizations=(
 
 # Code below is used to figure out a relative path of
 # resources dir in relation to the root dir of git repo.
-pushd ${prod_resources_dir} > /dev/null
-resources_git_repo_path=$(git rev-parse --show-prefix)
-popd > /dev/null
+resource_folders=(${prod_resources_dir} ${canary_resources_dir})
 
-for k in "${kustomizations[@]}"; do
-    boilerplate > ${prod_resources_dir}/flux-system/flux-ks-${k}.yaml
-    flux create kustomization ${k} \
-        --source=GitRepository/k8s-io.flux-system \
-        --path=${resources_git_repo_path}/${k} \
-        --interval=5m \
-        --prune \
-        --export >> ${prod_resources_dir}/flux-system/flux-ks-${k}.yaml
+for folder in "${resource_folderes}"; do
+    pushd ${folder} > /dev/null
+    local resources_git_repo_path=$(git rev-parse --show-prefix)
+    popd > /dev/null
+
+    for k in "${kustomizations[@]}"; do
+        boilerplate > ${folder}/flux-system/flux-ks-${k}.yaml
+        flux create kustomization ${k} \
+            --source=GitRepository/k8s-io.flux-system \
+            --path=${resources_git_repo_path}/${k} \
+            --interval=5m \
+            --prune \
+            --export >> ${folder}/flux-system/flux-ks-${k}.yaml
+    done
 done
